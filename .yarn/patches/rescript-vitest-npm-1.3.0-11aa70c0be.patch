@@ -1,0 +1,237 @@
+diff --git a/src/Vitest.res b/src/Vitest.res
+index 850f9151e6d3b4d7309b2c846ac6ed8fb8816952..db421b3f87197d78dcae97c94ee70b4c07a6b29c 100644
+--- a/src/Vitest.res
++++ b/src/Vitest.res
+@@ -232,10 +232,10 @@ module Concurrent = {
+   ) => unit = "concurrent"
+ 
+   include MakeConcurrentRunner({
+-    let describe = concurrent_describe->describe
+-    let testAsync = concurrent_test->testAsync
+-    let itAsync = concurrent_it->itAsync
+-    let benchAsync = concurrent_bench->benchAsync
++    let describe = describe(concurrent_describe, ...)
++    let testAsync = testAsync(concurrent_test, ...)
++    let itAsync = itAsync(concurrent_it, ...)
++    let benchAsync = benchAsync(concurrent_bench, ...)
+   })
+ }
+ 
+@@ -308,16 +308,16 @@ module Only = {
+   ) => unit = "only"
+ 
+   include MakeRunner({
+-    let describe = only_describe->describe
++    let describe = describe(only_describe, ...)
+ 
+-    let test = only_test->test
+-    let testAsync = only_test->testAsync
++    let test = test(only_test, ...)
++    let testAsync = testAsync(only_test, ...)
+ 
+-    let it = only_it->it
+-    let itAsync = only_it->itAsync
++    let it = it(only_it, ...)
++    let itAsync = itAsync(only_it, ...)
+ 
+-    let bench = only_bench->bench
+-    let benchAsync = only_bench->benchAsync
++    let bench = bench(only_bench, ...)
++    let benchAsync = benchAsync(only_bench, ...)
+   })
+ 
+   module Concurrent = {
+@@ -373,10 +373,10 @@ module Only = {
+     ) => unit = "concurrent"
+ 
+     include MakeConcurrentRunner({
+-      let describe = only_describe->concurrent_describe->describe
+-      let testAsync = only_test->concurrent_test->testAsync
+-      let itAsync = only_it->concurrent_it->itAsync
+-      let benchAsync = only_bench->concurrent_bench->benchAsync
++      let describe = describe(only_describe->concurrent_describe, ...)
++      let testAsync = testAsync(only_test->concurrent_test, ...)
++      let itAsync = itAsync(only_it->concurrent_it, ...)
++      let benchAsync = benchAsync(only_bench->concurrent_bench, ...)
+     })
+   }
+ }
+@@ -450,16 +450,16 @@ module Skip = {
+   ) => unit = "skip"
+ 
+   include MakeRunner({
+-    let describe = skip_describe->describe
++    let describe = describe(skip_describe, ...)
+ 
+-    let test = skip_test->test
+-    let testAsync = skip_test->testAsync
++    let test = test(skip_test, ...)
++    let testAsync = testAsync(skip_test, ...)
+ 
+-    let it = skip_it->it
+-    let itAsync = skip_it->itAsync
++    let it = it(skip_it, ...)
++    let itAsync = itAsync(skip_it, ...)
+ 
+-    let bench = skip_bench->bench
+-    let benchAsync = skip_bench->benchAsync
++    let bench = bench(skip_bench, ...)
++    let benchAsync = benchAsync(skip_bench, ...)
+   })
+ 
+   module Concurrent = {
+@@ -515,10 +515,10 @@ module Skip = {
+     ) => unit = "concurrent"
+ 
+     include MakeConcurrentRunner({
+-      let describe = skip_describe->concurrent_describe->describe
+-      let testAsync = skip_test->concurrent_test->testAsync
+-      let itAsync = skip_it->concurrent_it->itAsync
+-      let benchAsync = skip_bench->concurrent_bench->benchAsync
++      let describe = describe(skip_describe->concurrent_describe, ...)
++      let testAsync = testAsync(skip_test->concurrent_test, ...)
++      let itAsync = itAsync(skip_it->concurrent_it, ...)
++      let benchAsync = benchAsync(skip_bench->concurrent_bench, ...)
+     })
+   }
+ }
+@@ -788,47 +788,47 @@ module Each: EachType = {
+ 
+   @inline
+   let test = (cases, name, ~timeout=?, f) =>
+-    Ext.testObj(~test=Ext.test, ~cases)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
++    Ext.testObj(~test=Ext.test, ~cases, ...)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
+ 
+   @inline
+   let test2 = (cases, name, ~timeout=?, f) =>
+-    Ext.test2(~test=Ext.test, ~cases)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
++    Ext.test2(~test=Ext.test, ~cases, ...)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
+ 
+   @inline
+   let test3 = (cases, name, ~timeout=?, f) =>
+-    Ext.test3(~test=Ext.test, ~cases)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
++    Ext.test3(~test=Ext.test, ~cases, ...)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
+ 
+   @inline
+   let test4 = (cases, name, ~timeout=?, f) =>
+-    Ext.test4(~test=Ext.test, ~cases)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
++    Ext.test4(~test=Ext.test, ~cases, ...)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
+ 
+   @inline
+   let test5 = (cases, name, ~timeout=?, f) =>
+-    Ext.test5(~test=Ext.test, ~cases)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
++    Ext.test5(~test=Ext.test, ~cases, ...)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
+ 
+   @inline
+   let testAsync = (cases, name, ~timeout=?, f) =>
+-    Ext.testObjAsync(~test=Ext.test, ~cases)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
++    Ext.testObjAsync(~test=Ext.test, ~cases, ...)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
+ 
+   @inline
+   let test2Async = (cases, name, ~timeout=?, f) =>
+-    Ext.test2Async(~test=Ext.test, ~cases)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
++    Ext.test2Async(~test=Ext.test, ~cases, ...)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
+ 
+   @inline
+   let test3Async = (cases, name, ~timeout=?, f) =>
+-    Ext.test3Async(~test=Ext.test, ~cases)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
++    Ext.test3Async(~test=Ext.test, ~cases, ...)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
+ 
+   @inline
+   let test4Async = (cases, name, ~timeout=?, f) =>
+-    Ext.test4Async(~test=Ext.test, ~cases)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
++    Ext.test4Async(~test=Ext.test, ~cases, ...)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
+ 
+   @inline
+   let test5Async = (cases, name, ~timeout=?, f) =>
+-    Ext.test5Async(~test=Ext.test, ~cases)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
++    Ext.test5Async(~test=Ext.test, ~cases, ...)(. ~name, ~f, ~timeout=timeout->Js.Undefined.fromOption)
+ 
+   @inline
+   let describe = (cases, name, ~timeout=?, f) =>
+-    Ext.describeObj(~describe=Ext.describe, ~cases)(.
++    Ext.describeObj(~describe=Ext.describe, ~cases, ...)(.
+       ~name,
+       ~f,
+       ~timeout=timeout->Js.Undefined.fromOption,
+@@ -836,7 +836,7 @@ module Each: EachType = {
+ 
+   @inline
+   let describe2 = (cases, name, ~timeout=?, f) =>
+-    Ext.describe2(~describe=Ext.describe, ~cases)(.
++    Ext.describe2(~describe=Ext.describe, ~cases, ...)(.
+       ~name,
+       ~f,
+       ~timeout=timeout->Js.Undefined.fromOption,
+@@ -844,7 +844,7 @@ module Each: EachType = {
+ 
+   @inline
+   let describe3 = (cases, name, ~timeout=?, f) =>
+-    Ext.describe3(~describe=Ext.describe, ~cases)(.
++    Ext.describe3(~describe=Ext.describe, ~cases, ...)(.
+       ~name,
+       ~f,
+       ~timeout=timeout->Js.Undefined.fromOption,
+@@ -852,7 +852,7 @@ module Each: EachType = {
+ 
+   @inline
+   let describe4 = (cases, name, ~timeout=?, f) =>
+-    Ext.describe4(~describe=Ext.describe, ~cases)(.
++    Ext.describe4(~describe=Ext.describe, ~cases, ...)(.
+       ~name,
+       ~f,
+       ~timeout=timeout->Js.Undefined.fromOption,
+@@ -860,7 +860,7 @@ module Each: EachType = {
+ 
+   @inline
+   let describe5 = (cases, name, ~timeout=?, f) =>
+-    Ext.describe5(~describe=Ext.describe, ~cases)(.
++    Ext.describe5(~describe=Ext.describe, ~cases, ...)(.
+       ~name,
+       ~f,
+       ~timeout=timeout->Js.Undefined.fromOption,
+@@ -868,7 +868,7 @@ module Each: EachType = {
+ 
+   @inline
+   let describeAsync = (cases, name, ~timeout=?, f) =>
+-    Ext.describeObjAsync(~describe=Ext.describe, ~cases)(.
++    Ext.describeObjAsync(~describe=Ext.describe, ~cases, ...)(.
+       ~name,
+       ~f,
+       ~timeout=timeout->Js.Undefined.fromOption,
+@@ -876,7 +876,7 @@ module Each: EachType = {
+ 
+   @inline
+   let describe2Async = (cases, name, ~timeout=?, f) =>
+-    Ext.describe2Async(~describe=Ext.describe, ~cases)(.
++    Ext.describe2Async(~describe=Ext.describe, ~cases, ...)(.
+       ~name,
+       ~f,
+       ~timeout=timeout->Js.Undefined.fromOption,
+@@ -884,7 +884,7 @@ module Each: EachType = {
+ 
+   @inline
+   let describe3Async = (cases, name, ~timeout=?, f) =>
+-    Ext.describe3Async(~describe=Ext.describe, ~cases)(.
++    Ext.describe3Async(~describe=Ext.describe, ~cases, ...)(.
+       ~name,
+       ~f,
+       ~timeout=timeout->Js.Undefined.fromOption,
+@@ -892,7 +892,7 @@ module Each: EachType = {
+ 
+   @inline
+   let describe4Async = (cases, name, ~timeout=?, f) =>
+-    Ext.describe4Async(~describe=Ext.describe, ~cases)(.
++    Ext.describe4Async(~describe=Ext.describe, ~cases, ...)(.
+       ~name,
+       ~f,
+       ~timeout=timeout->Js.Undefined.fromOption,
+@@ -900,7 +900,7 @@ module Each: EachType = {
+ 
+   @inline
+   let describe5Async = (cases, name, ~timeout=?, f) =>
+-    Ext.describe5Async(~describe=Ext.describe, ~cases)(.
++    Ext.describe5Async(~describe=Ext.describe, ~cases, ...)(.
+       ~name,
+       ~f,
+       ~timeout=timeout->Js.Undefined.fromOption,

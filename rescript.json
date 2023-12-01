@@ -1,0 +1,16 @@
+{
+  "name": "advent-of-code",
+  "bs-dependencies": ["@rescript/core", "rescript-vitest", "@glennsl/rescript-fetch", "rescript-nodejs"],
+  "bsc-flags": ["-open RescriptCore"],
+  "suffix": ".bs.js",
+  "package-specs": {
+    "module": "es6",
+    "in-source": true
+  },
+  "sources": [
+    {
+      "dir": "2023",
+      "subdirs": true
+    }
+  ]
+}
